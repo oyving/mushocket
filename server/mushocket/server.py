@@ -33,9 +33,6 @@ class WebSocketKey(object):
         key1numbers = self.key_numbers(self.key1)
         key2numbers = self.key_numbers(self.key2)
 
-        print "Debug:", key1numbers
-        print "Debug:", key2numbers
-
         if key1spaces == 0 or key2spaces == 0:
             return False
 
@@ -68,8 +65,6 @@ class WebSocketHandler(SocketServer.StreamRequestHandler):
     browser.  Will do handshake, and then leave off to handleRequess
     implementation to deal with the rest.
     """
-
-    numbers = [str(x) for x in range(0, 10)]
 
     def log(self, message):
         """
