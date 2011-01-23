@@ -6,17 +6,52 @@
 	    src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js">
     </script>
     <script type="text/javascript">
+      function makeTerminalUpdater(cssClass) {
+          return function (text) {
+	      $("#terminal").append(
+	          $("<div>").addClass("output").addClass(cssClass).text(
+		      text))
+	  }
+      }
+
+      terminalSystem = makeTerminalUpdater("system")
+      terminalServer = makeTerminalUpdater("server")
+
       $(document).ready(function () { 
           var socket = new WebSocket("ws://localhost:8080/mushocket");
-	  socket.onopen = function(evt) { alert("Conn opened"); }
-	  socket.onread = function(evt) { alert("Read: " + evt.data); }
-	  socket.onclose = function(evt) { alert("Conn closed"); }
-	  socket.onerror = function(evt) { alert("Error: " + evt); } 
-	  socket.send("Hello, World!")
+
+	  socket.onopen = function(event) {
+	      terminalSystem("Connected to " + socket.URL)
+	  }
+
+	  socket.onread = function(event) {
+	      terminalServer(event.data)
+	  }
+
+	  socket.onclose = function(event) {
+	      terminalSystem("Connection closed with " + socket.URL)
+          }
+
+	  socket.onerror = function(event) {
+	      terminalSystem("Error: " + evt)
+          }
       })
     </script>
+    <style type="text/css">
+      
+    </style>
   </head> 
   <body> 
+    <div id="terminal">
+      <div class="greeting output">
+	Welcome to Mushocket!
+      </div>
+    </div>
+
+    <form name="terminal">
+      <textarea cols="80" rows="2" name="terminalinput" autofocus="true"></textarea>
+      <input type="submit">
+    </form>
   </body> 
 </html> 
  
