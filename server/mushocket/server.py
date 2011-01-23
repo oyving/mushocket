@@ -7,6 +7,14 @@ import hashlib
 import struct
 
 class WebSocketKey(object):
+    """
+    payload - body of initial request
+    key1 - Contents of Sec-WebSocket-Key1
+    key2 - Contents of Sec-WebSocket-Key2
+
+    Simple helper class to calculate the response payload to a WebSocket
+    handshake challenge.
+    """
 
     numbers = [str(x) for x in xrange(0, 10)]
 
@@ -16,6 +24,9 @@ class WebSocketKey(object):
         self.key2 = key2
 
     def response(self):
+        """
+        Calculate the response value.  Returns a (binary) string.
+        """
         key1spaces = self.key_spaces(self.key1)
         key2spaces = self.key_spaces(self.key2)
 
@@ -45,8 +56,6 @@ class WebSocketKey(object):
             if c in self.numbers:
                 result += c
         return int(result)
-
-
 
 
 class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
