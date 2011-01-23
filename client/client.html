@@ -1,0 +1,22 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <title>Mushocket Client</title>
+    <script type="text/javascript"
+	    src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function () { 
+          var socket = new WebSocket("ws://localhost:8080/mushocket");
+	  socket.onopen = function(evt) { alert("Conn opened"); }
+	  socket.onread = function(evt) { alert("Read: " + evt.data); }
+	  socket.onclose = function(evt) { alert("Conn closed"); }
+	  socket.onerror = function(evt) { alert("Error: " + evt); } 
+	  socket.send("Hello, World!")
+      })
+    </script>
+  </head> 
+  <body> 
+  </body> 
+</html> 
+ 
